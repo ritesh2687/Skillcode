@@ -1,0 +1,59 @@
+import { useState } from 'react';
+
+import './App.css'
+import { Button } from "./components/ui/Button";
+import Login from './pages/Login';
+import Navbar from './components/Navbar';
+import HeroSection from './pages/student/HeroSection';
+import { createBrowserRouter } from 'react-router-dom';
+import MainLayout from './layout/MainLayout';
+import { RouterProvider } from 'react-router-dom';
+import Courses from './pages/student/Courses';
+import MySkill from './pages/student/MySkill';
+import Profile from './pages/student/Profile';
+// import Course from './pages/student/Course';
+
+const appRouter= createBrowserRouter([
+  {
+    path:"/",
+    element:<MainLayout/>,
+    children:[
+      {
+        path:"/",
+        element:<>
+        <HeroSection />
+        {/* course */}
+        <Courses/>
+        </>
+      },
+      {
+        path:"login",
+        element:<Login/>
+      },
+      {
+        path:"my-skill",
+        element:<MySkill/>
+      },
+      {
+        path:"profile",
+        element:<Profile/>
+      }
+    ]
+  }
+])
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+    <main>
+      <RouterProvider router={appRouter}/>
+    </main>
+      
+      
+    </>
+  )
+}
+
+export default App
