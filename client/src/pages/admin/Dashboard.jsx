@@ -1,14 +1,18 @@
 import React from 'react'
-
+import { Card, CardHeader, CardTitle } from '@/components/ui/card'
 const Dashboard = () => {
   return (
-    <div className='flex-1 mx-10'>
-        <div className='mb-4'>
-            
-        </div>
-      dashboard
+    <div className='grid  gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 '>
+      
+      <Card >
+                <CardHeader>
+                    <CardTitle>Total Sales</CardTitle>
+                </CardHeader>
+            </Card>
+
     </div>
   )
 }
 
 export default Dashboard
+
