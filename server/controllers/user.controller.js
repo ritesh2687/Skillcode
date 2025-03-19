@@ -1,7 +1,7 @@
 import {User} from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../utils/generateToken.js';
-import { deleteMediaFromCloudary, uploadMedia } from '../utils/cloudinary.js';
+import { deleteMediaFromCloudinary, uploadMedia } from '../utils/cloudinary.js';
 export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -126,7 +126,7 @@ export const updateProfile = async (req,res)=> {
         //extract public id of the old image from the url is it exists
         if(user.photoUrl){
             const publicId = user.photoUrl.split("/").pop().split(".")[0]; //extract public id
-            deleteMediaFromCloudary(publicId);
+            deleteMediaFromCloudinary(publicId);
 
         }
         //upload new photo
