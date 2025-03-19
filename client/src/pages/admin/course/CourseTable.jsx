@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useGetCreatorCourseQuery } from '@/features/api/courseApi'
-import { Edit } from 'lucide-react'
+import { Edit, Loader, Loader2 } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 
@@ -58,7 +58,7 @@ const invoices = [
 const CourseTable = () => {
   const {data,isLoading} = useGetCreatorCourseQuery();
     const navigate =useNavigate();
-    if(isLoading) return <h1>Loading .... ..  .</h1>
+    if(isLoading) return <h1><Loader2/></h1>
     
     return (
         <div >

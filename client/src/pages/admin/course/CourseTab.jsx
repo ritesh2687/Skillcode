@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEditCourseMutation } from "@/features/api/courseApi";
+import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/api/courseApi";
 import { Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -27,12 +27,31 @@ const CourseTab = () => {
         coursePrice: "",
         courseThumbnail: "",
     });
+    const params = useParams();
+    const courseId = params.courseId;
+    const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+    
+    useEffect(() => {
+        if (courseByIdData?.course) {
+            const course = courseByIdData?.course;
+            setInput({
+                courseTitle: course.courseTitle,
+                subTitle: course.subTitle,
+                description: course.description,
+                category: course.category,
+                courseLevel: course.courseLevel,
+                coursePrice: course.coursePrice,
+                courseThumbnail: "",
+            });
+        }
+    }, [courseByIdData?.course]);
+
     const [previewThumbnail, setPreviewThumbnail] = useState("");
     const navigate = useNavigate();
-    const params =useParams();
-    const courseId = params.courseId;
+    
 
-    const [editCourse,{data,isLoading,isSuccess,error}]=useEditCourseMutation();
+
+    const [editCourse, { data, isLoading, isSuccess, error }] = useEditCourseMutation();
 
 
     const changeEventHandler = (e) => {
@@ -58,9 +77,9 @@ const CourseTab = () => {
         }
     };
 
-    const updateCourseHandler = async ()=>{
-        const formData =new FormData();
-        formData.append("courseTitle222", input.courseTitle);
+    const updateCourseHandler = async () => {
+        const formData = new FormData();
+        formData.append("courseTitle", input.courseTitle);
         formData.append("subTitle", input.subTitle);
         formData.append("description", input.description);
         formData.append("category", input.category);
@@ -69,23 +88,23 @@ const CourseTab = () => {
         formData.append("courseThumbnail", input.courseThumbnail);
 
 
-        await editCourse({formData,courseId});
+        await editCourse({ formData, courseId });
         // console.log(input);
     }
 
-    useEffect(()=>{
-        if(isSuccess){
+    useEffect(() => {
+        if (isSuccess) {
             toast.success(data.message || "Course updated")
         }
-        if(error){
+        if (error) {
             toast.error(error.data.message || "failed to update");
         }
-    },[isSuccess,error]);
+    }, [isSuccess, error]);
 
-
+    if(courseByIdLoading) return<Loader2 className="h-4 w-4 animate-spin"/>
 
     const isPublished = false;
-    
+
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between">
@@ -119,8 +138,8 @@ const CourseTab = () => {
                         <Label>SubTitle</Label>
                         <Input
                             type="text"
-                            name="SubTitle"
-                            value={input.subTitleTitle}
+                            name="subTitle"
+                            value={input.subTitle}
                             onChange={changeEventHandler}
                             placeholder="Ex. Become a  Fullstack developer from zero to hero"
                         ></Input>
@@ -129,10 +148,10 @@ const CourseTab = () => {
                         <Label>Description</Label>
 
                         <RichTextEditor input={input} setInput={setInput} />
-                        
+
                     </div>
 
-                   
+
                     <div className="flex items-center gap-5">
                         <div>
                             <Label>Category</Label>
