@@ -32,6 +32,8 @@ export const createCourse = async (req, res) => {
   }
 };
 
+
+
 export const getCreatorCourses = async (req, res) => {
   try {
     const userId = req.id;
@@ -269,3 +271,30 @@ export const getLectureById = async (req,res)=>{
 }
 
 // publish or unpublished course logic
+
+export const togglePublishCourse = async (req,res) =>{
+  try {
+    const {courseId} = req.params;
+    const {publish} = req.query;//true,false
+    const course = await Course.findById(courseId);
+
+    if (!course) {
+      return res.status(404).json({
+        message: "course not Found!",
+      });
+    }
+    //publish status based on the query parameter
+    course.isPublished = publish === "true";
+    await course.save();
+    const statusMessage =course.isPublished ? "Published" : "Unpublished";
+    return res.status(200).json ({
+      message:`Course is ${statusMessage}`
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Failed to update status",
+    });
+  }
+}

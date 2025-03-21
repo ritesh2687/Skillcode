@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useEditCourseMutation, useGetCourseByIdQuery } from "@/features/api/courseApi";
+import { useEditCourseMutation, useGetCourseByIdQuery, usePublishCourseMutation } from "@/features/api/courseApi";
 import { Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -29,7 +29,9 @@ const CourseTab = () => {
     });
     const params = useParams();
     const courseId = params.courseId;
-    const { data: courseByIdData, isLoading: courseByIdLoading } = useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+    const { data: courseByIdData, isLoading: courseByIdLoading,refetch} = useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+
+    const [publishCourse,{}] =usePublishCourseMutation();
     
     useEffect(() => {
         if (courseByIdData?.course) {
@@ -92,6 +94,22 @@ const CourseTab = () => {
         // console.log(input);
     }
 
+    const publishStatusHandler = async (action) =>{
+        try {
+            const response =await publishCourse({
+                courseId, query:action
+            });
+            if(response.data){
+                refetch();
+            //   alert(`${statusMessage}`)
+                toast.success(response.data.message);
+            }
+        } catch (error) {
+            toast.error("Failed to publish or unpublish course")
+            
+        }
+    }
+
     useEffect(() => {
         if (isSuccess) {
             toast.success(data.message || "Course updated")
@@ -103,7 +121,7 @@ const CourseTab = () => {
 
     if(courseByIdLoading) return<Loader2 className="h-4 w-4 animate-spin"/>
 
-    const isPublished = false;
+    
 
     return (
         <Card>
@@ -115,8 +133,8 @@ const CourseTab = () => {
                     </CardDescription>
                 </div>
                 <div className="space-x-2">
-                    <Button variant="outline">
-                        {isPublished ? "Unpublished" : "Published"}
+                    <Button disabled={courseByIdData?.course.lectures.length ===0} variant="outline" onClick={()=> publishStatusHandler(courseByIdData?.course.isPublished ? "false" : "true" )}>
+                        {courseByIdData?.course.isPublished ? "Unpublished" : "Published"}
                     </Button>
                     <Button>Remove Course</Button>
                 </div>
@@ -222,7 +240,7 @@ const CourseTab = () => {
                         }
                     </div>
                     <div>
-                        <Button variant="outline" onClick={() => navigate("/admin/course")}>Cancle</Button>
+                        <Button variant="outline" onClick={() => navigate("/admin/course") }>Cancle</Button>
                         <Button disabled={isLoading} onClick={updateCourseHandler}>
                             {
                                 isLoading ? (<>
