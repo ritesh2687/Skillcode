@@ -55,7 +55,9 @@ const Navbar = () => {
                 <div className="flex items-center gap-2">
                     <School size={"25"} />
 
-                    <h1 className=" md:block font-extrabold text-2xl"> SkillCode</h1>
+                    <Link to="/">
+                        <h1 className=" md:block font-extrabold text-2xl"> SkillCode</h1>
+                    </Link>
                 </div>
                 {/* USERicon and darkmode icon */}
                 <div className="flex items-center gap-8">
@@ -78,13 +80,13 @@ const Navbar = () => {
                                 </DropdownMenuGroup>
 
                                 {
-                                   user.role === "instructor" && (
-                                    <>
-                                       <DropdownMenuSeparator/>
-                                       <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                                    </>
+                                    user.role === "instructor" && (
+                                        <>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                                        </>
 
-                                   )
+                                    )
                                 }
 
                             </DropdownMenuContent>

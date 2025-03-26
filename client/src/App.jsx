@@ -18,6 +18,8 @@ import AddCourse from './pages/admin/course/AddCourse';
 import EditCourse from './pages/admin/course/EditCourse';
 import CreateLecture from './pages/admin/lecture/CreateLecture';
 import Editlecture from './pages/admin/lecture/Editlecture';
+import CourseDetail from './pages/student/CourseDetail';
+import CourseProgress from './pages/student/CourseProgress';
 // import Course from './pages/student/Course';
 
 const appRouter= createBrowserRouter([
@@ -44,6 +46,14 @@ const appRouter= createBrowserRouter([
       {
         path:"profile",
         element:<Profile/>
+      },
+      {
+        path:"course-detail/:courseId",
+        element:<CourseDetail/>
+      },
+      {
+        path:"course-progress/:courseId",
+        element:<CourseProgress/>
       },
       //admin routs start from here
       {
