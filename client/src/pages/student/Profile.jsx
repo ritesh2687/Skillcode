@@ -29,7 +29,7 @@ const Profile = () => {
     updateUser,
     {
       data: updateUserData,
-      isLoading: upadteUserIsLoading,
+      isLoading: updateUserIsLoading,
       isError,
       error,
       isSuccess,
@@ -68,7 +68,7 @@ const Profile = () => {
 
   const  user  = data && data.user;
   return (
-    <div className="max-w-4xl mx-auto my-25 px-4 md:px-0">
+    <div className="max-w-4xl mx-auto my-10 px-4 md:px-0">
       <h1 className="font-bold text-2xl text-center md:text-left">PROFILE</h1>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8 my-5">
         <div className="flex flex-col items-center">
@@ -116,7 +116,7 @@ const Profile = () => {
               <DialogHeader>
                 <DialogTitle>Edit Profile</DialogTitle>
                 <DialogDescription>
-                  make changes to your profile here,Click Save and Done
+                  Make changes to your profile here,Click Save and Done
                 </DialogDescription>
               </DialogHeader>
               <div className=" grid gap-4 py-4">
@@ -124,7 +124,7 @@ const Profile = () => {
                   <Label>Name:</Label>
                   <Input
                     type="text"
-                    value={user.name}
+                    value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Name"
                     className="col-span-3"
@@ -141,8 +141,8 @@ const Profile = () => {
                 </div>
               </div>
               <DialogFooter>
-                <Button disabled={upadteUserIsLoading} onClick={updateUserHandler}>
-                  {upadteUserIsLoading ? (
+                <Button disabled={updateUserIsLoading} onClick={updateUserHandler}>
+                  {updateUserIsLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Please wait

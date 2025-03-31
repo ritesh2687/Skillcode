@@ -90,7 +90,7 @@ export const getUserProfile = async(req,res)=>{
     try{
     
         const userId= req.id;
-        const user =await User.findById(userId).select("-password");
+        const user =await User.findById(userId).select("-password").populate("enrolledCourses");
         if(!user){
             return res.status(404).json({
                 message:"profile not found",

@@ -34,7 +34,7 @@ navigate(`/course-progress/${courseId}`)
 
 
     return (
-        <div className="mt-20 space-y-15">
+        <div className="space-y-5">
             <div className="bg-[#2D2F31] text-white">
                 <div className="max-w-7xl mx-auto py-8 px-4 md:px-8 flex flex-col gap-2">
                     <h1 className="font-bold text-2xl md:text-3xl">{course?.courseTitle}</h1>
@@ -51,7 +51,7 @@ navigate(`/course-progress/${courseId}`)
                 </div>
             </div>
             <div className="max-w-7xl mx-auto my-5 px-4 md:px-8 flex flex-col lg:flex-row justify-between gap-10">
-                <div className="w-full lg:1/2 space-y-5">
+                <div className="w-full lg:1/2 space-y-5 " >
                     <h1 className="font-bold text-xl md:text-2xl">Description</h1>
                     <p className="text-sm" dangerouslySetInnerHTML={{ __html: course.description }}>
 
